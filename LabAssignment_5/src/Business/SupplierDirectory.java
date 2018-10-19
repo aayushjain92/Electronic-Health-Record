@@ -30,5 +30,16 @@ public class SupplierDirectory {
         this.supplierList = supplierList;
     }
     
+    public Supplier addSupllier(String password, String userName)
+    {
+        Supplier s = new Supplier(password, userName);
+        supplierList.add(s);
+        return s;
+    }
+            
+    public void removeSupplier(Supplier s)
+    {
+        supplierList.remove(s);
+    }
     
 }

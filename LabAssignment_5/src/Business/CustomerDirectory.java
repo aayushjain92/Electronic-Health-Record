@@ -22,4 +22,16 @@ public class CustomerDirectory {
         this.customerList = supplierList;
     }
     
+    public Customer addCustomer(Date dateCreated, String password, String userName)
+    {
+        Customer c = new Customer(dateCreated, password, userName);
+        customerList.add(c);
+        return c;
+    }
+    
+    public void removeCustomer(Customer c)
+    {
+        customerList.remove(c);        
+    }
+
 }
