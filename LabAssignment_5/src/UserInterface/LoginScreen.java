@@ -24,10 +24,12 @@ public class LoginScreen extends javax.swing.JPanel {
      */
     List<User> list;
     JPanel panelRight;
-    public LoginScreen(JPanel panelRight, List<User> list) {
+    String name;
+    public LoginScreen(JPanel panelRight, List<User> list, String name) {
         initComponents();
         this.list = list;
         this.panelRight = panelRight;
+        this.name=name;
         initialize();
     }
 
@@ -105,8 +107,11 @@ public class LoginScreen extends javax.swing.JPanel {
     private void initialize(){
         //text should either be "Supplier Login Screen" OR "Customer Login Screen"
         //Based on the selection
-        txtTitle.setText("****** Login Screen");
+        txtTitle.setText(name);
         comboUser.removeAllItems();
+        for(User user:list){
+            comboUser.addItem(user);
+        }
         //only customer or suppliers should be listed based on the selection
     }
     
