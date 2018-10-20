@@ -6,6 +6,7 @@
 package UserInterface;
 
 import Business.Abstract.User;
+import javax.swing.JPanel;
 
 /**
  *
@@ -22,6 +23,14 @@ public class SuccessScreen extends javax.swing.JPanel {
         this.user = user;
         initialize();
     }
+
+    SuccessScreen(JPanel panelRight,User user) {
+         initComponents();
+        this.user = user;
+        initialize();
+    }
+
+   
 
     /**
      * This method is called from within the constructor to initialize the form.

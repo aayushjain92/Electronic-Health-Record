@@ -25,6 +25,7 @@ public class LoginScreen extends javax.swing.JPanel {
     List<User> list;
     JPanel panelRight;
     String name;
+    
     public LoginScreen(JPanel panelRight, List<User> list, String name) {
         initComponents();
         this.list = list;
@@ -46,6 +47,12 @@ public class LoginScreen extends javax.swing.JPanel {
         btnSubmit = new javax.swing.JButton();
         comboUser = new javax.swing.JComboBox<Object>();
         txtTitle = new javax.swing.JLabel();
+
+        txtPword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPwordActionPerformed(evt);
+            }
+        });
 
         btnSubmit.setText("Login");
         btnSubmit.addActionListener(new java.awt.event.ActionListener() {
@@ -96,12 +103,33 @@ public class LoginScreen extends javax.swing.JPanel {
 
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
         // TODO add your handling code here:
-        
+          User user=(User) comboUser.getSelectedItem();
+        String typed=txtPword.getText();
+        if(typed.isEmpty()){
+           JOptionPane.showMessageDialog(null, "Kindly enter password !"); 
+           return;
+        }
+        if(!user.verify(typed)){
+            JOptionPane.showMessageDialog(null, "Wrong Password. Try again !");
+            return;
+        }
+        CardLayout layout = (CardLayout)panelRight.getLayout();
+        panelRight.add(new SuccessScreen(user));
+        layout.next(panelRight);
+        txtPword.setText("");
     }//GEN-LAST:event_btnSubmitActionPerformed
 
     private void comboUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboUserActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboUserActionPerformed
+
+    private void txtPwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPwordActionPerformed
+        // TODO add your handling code here:
+        txtPword.getText();
+        
+        
+        
+    }//GEN-LAST:event_txtPwordActionPerformed
 
     
     private void initialize(){
