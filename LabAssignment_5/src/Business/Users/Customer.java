@@ -6,18 +6,18 @@ import java.util.Date;
 
 public class Customer  {
   
-//    private Date dateCreated;
-//    
-//    public Customer(Date dateCreated,String password,String userName){
-//        super(password,userName,"Customer");
-//        this.dateCreated = dateCreated;
-//    }
-//    
-//    public Date getDateCreated(){
-//        return dateCreated;
-//    }
+   private Date dateCreated;
+   
+   public Customer(Date dateCreated,String password,String userName){
+        super(password,userName,"Customer");
+       this.dateCreated = dateCreated;
+  }
     
-//    @Override
-//    public int CompareTo();
+    public Date getDateCreated(){
+        return dateCreated;
+    }
+    
+    @Override
+    public int CompareTo();
            
 }
