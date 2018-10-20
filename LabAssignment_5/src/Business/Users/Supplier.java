@@ -31,6 +31,7 @@ public class Supplier extends User implements Comparable<Supplier>{
         return getUserName(); //To change body of generated methods, choose Tools | Templates.
     }
     
+    @Override
     public boolean verify(String password){
         if(password.equals(getPassword()))
             return true;
