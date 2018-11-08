@@ -23,14 +23,83 @@ import lab_8.entities.User;
  */
 public class AnalysisHelper {
     
-    
+    public void averageNumberOfLikesPerComment() {
+        Map<Integer, Comment> comments = DataStore.getInstance().getComments();
+     Map<Integer, User> Users = DataStore.getInstance().getUsers();
+       
+        int likesSum = 0;
+       
+        for(Comment comment: comments.values()) {
+            likesSum += comment.getLikes();
+        }
+        System.out.println("Average Likes per Comment = "+ likesSum/comments.size());
+    }
     public void userWithMostLikes(){
+        Map<Integer , Integer> userLikecount = new HashMap<Integer , Integer>(); 
+                 
+                 
+         Map<Integer, User> users = DataStore.getInstance().getUsers();
         
+        for(User user : users.values())
+            
+            for(Comment c : user.getComments())
+            {
+                
+                
+                int likes = 0 ;
+                if(userLikecount.containsKey(user.getId()))
+                    likes = userLikecount.get(user.getId());
+                likes += c.getLikes();
+                    userLikecount.put(user.getId(), likes);
+                    
+    }
+        
+        int max=0;
+        int maxId=0;
+        
+        for(int id : userLikecount.keySet()){
+        if(userLikecount.get(id) > max){
+            
+          
+            max= userLikecount.get(id);
+            maxId = id;
+            
+            
+            
+        }
         
     }
+        System.out.println("User  with most likes  :"  +max+ "\n" +users.get(maxId));
+    }
+    
+    
     
     public void getFiveMostLikedComment(){
+         Map<Integer, Comment> comments = DataStore.getInstance().getComments();
         
+        List<Comment> commentList = new ArrayList<>(comments.values());
+        
+       Collections.sort(commentList, new Comparator<Comment>(){
+       
+       @Override
+       
+       public int compare(Comment o1, Comment o2){
+       
+           return o2.getLikes() -  o1.getLikes();
+           
+       }
+       
+       
+       });
+       
+        System.out.println("5 most liked comments   : ");
+        
+        for(int i = 0 ; i < commentList.size() && i < 5 ; i++){
+        
+            
+            System.out.println(commentList.get(i));
+        }
+    
         
     }
     
