@@ -63,10 +63,19 @@ public class GateWay {
             System.out.print(listCustomer.get(i)+"\t");           
         }
        
+        
+        System.out.println();
+         System.out.println("\n----------------------------------------- ");
+         System.out.println("\n----------- Top 3 Sales Persons----------- ");
+         analysisHelp.top3BestSalesPeople();
+         
          System.out.println();
          System.out.println("\n----------------------------------------- ");
          System.out.println("Total Revenue generated for the year: " +analysisHelp.totalRevenueGenerated());
          System.out.println("----------------------------------------- ");
+         
+         
+         
     }
     
        public static void produceProducts(String[] row){
