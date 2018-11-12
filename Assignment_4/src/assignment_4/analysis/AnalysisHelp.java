@@ -65,5 +65,18 @@ public class AnalysisHelp {
         return list;
     }
     
+    public int totalRevenueGenerated(){
+        Map<Integer, Order> orderListMap= DataStock.getInstance().getOrders();
+        int totalRevenue=0;
+        for(Map.Entry<Integer,Order> entry: orderListMap.entrySet()){
+            Order o=entry.getValue();
+            int salesPrice=o.getItem().getSalesPrice();
+            int quantity=o.getItem().getQuantity();
+            Product p=DataStock.getInstance().getProducts().get(o.getItem().getProductId());
+            int minPrice=p.getMinPrice();
+            totalRevenue+=(salesPrice-minPrice)*quantity;
+        }
+        return totalRevenue;
+    }
     
 }

@@ -52,17 +52,21 @@ public class GateWay {
         }
         
         List<Product> listProduct=analysisHelp.top3MostPopularProducts();
-        System.out.println("Top 3 Products are : ");
+        System.out.println("\n ----------Top 3 Popular Products--------- ");
         for(int i=0;i<3;i++){
             System.out.print(listProduct.get(i)+"\t");          
         }
         System.out.println();
         List<Customer> listCustomer=analysisHelp.top3BestCustomers();
-        System.out.println("\nTop 3 Best Cusomers are : ");
+        System.out.println("\n----------- Top 3 Best Customers----------- ");
         for(int i=0;i<3;i++){
             System.out.print(listCustomer.get(i)+"\t");           
         }
-        
+       
+         System.out.println();
+         System.out.println("\n----------------------------------------- ");
+         System.out.println("Total Revenue generated for the year: " +analysisHelp.totalRevenueGenerated());
+         System.out.println("----------------------------------------- ");
     }
     
        public static void produceProducts(String[] row){
