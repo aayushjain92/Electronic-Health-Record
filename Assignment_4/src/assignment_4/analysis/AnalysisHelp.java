@@ -8,6 +8,7 @@ package assignment_4.analysis;
 import assignment_4.entities.Customer;
 import assignment_4.entities.Order;
 import assignment_4.entities.Product;
+import assignment_4.entities.SalesPerson;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -78,5 +79,32 @@ public class AnalysisHelp {
         }
         return totalRevenue;
     }
+    
+    
+    public void top3BestSalesPeople (){
+     Map<Integer, SalesPerson> salesPerson = DataStock.getInstance().getSalesPeople();
+     ArrayList<SalesPerson> sales = new ArrayList<>(salesPerson.values());
+     Collections.sort(sales, new Comparator<SalesPerson>() {
+
+         @Override
+         public int compare(SalesPerson o1, SalesPerson o2) {
+             int totalSalesPerson1 = 0;
+             for (Order o: o1.getOrders()) {
+                 totalSalesPerson1 += o.getItem().getQuantity() * o.getItem().getSalesPrice();
+             }
+             int totalSalesPerson2 =0;
+             for (Order o: o2.getOrders()){
+                 totalSalesPerson2 +=o.getItem().getQuantity() * o.getItem().getSalesPrice();
+             }
+             return totalSalesPerson2-totalSalesPerson1;
+         }
+         
+     });
+     
+     for (int i = 0; i< 3; i++) {
+         System.out.print(sales.get(i)+"\t");
+     }     
+   }
+    
     
 }
