@@ -24,18 +24,31 @@ public abstract class Organization {
     private static int counter=0;
     
     public enum OrganizationType{
+
         Admin("Admin Organization"), Doctor("Doctor Organization"), Lab("Lab Organization"), Nurse("Nurse Organization"),
+
         Finance("Finance Organization"), Store("Store Organization"), 
+
         Guardian("Guardian Organization"), Premium("Premium Users Organization"), Standard ("Standard Users Organization"),
+
         Orders("Orders Organization");
+
         
+
         private String value;
+
         private OrganizationType(String value) {
+
             this.value = value;
+
         }
+
         public String getValue() {
+
             return value;
+
         }
+
     }
 
     public Organization(String name) {

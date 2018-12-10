@@ -14,6 +14,18 @@ import java.util.ArrayList;
  */
 public class HospitalEnterprise extends Enterprise {
     
+    public enum HospitalOrganizationType{
+         Doctor("Doctor Organization"), Nurse("Nurse Organization"),Finance("Finance Organization");
+        
+        private String value;
+        private HospitalOrganizationType(String value) {
+            this.value = value;
+        }
+        public String getValue() {
+            return value;
+        }
+    }
+    
     public HospitalEnterprise(String name){
         super(name,EnterpriseType.Hospital);
     }

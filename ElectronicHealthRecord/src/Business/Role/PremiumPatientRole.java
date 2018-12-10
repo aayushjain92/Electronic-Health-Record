@@ -10,16 +10,16 @@ import Business.Enterprise.Enterprise;
 import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
 import javax.swing.JPanel;
+import userinterface.PatientDetails.PatientDashboardJPanel;
 
 /**
  *
  * @author Aayush
  */
 public class PremiumPatientRole extends Role{
-      @Override
+       @Override
     public JPanel createWorkArea(JPanel userProcessContainer, UserAccount account, Organization organization, Enterprise enterprise, EcoSystem business) {
-     //   return new AdminWorkAreaJPanel(userProcessContainer, enterprise);
-     return null;
+        return new PatientDashboardJPanel(userProcessContainer, account, organization, enterprise, business);
     }
 
 }

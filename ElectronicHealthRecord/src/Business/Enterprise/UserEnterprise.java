@@ -13,6 +13,19 @@ import java.util.ArrayList;
  * @author Aayush
  */
 public class UserEnterprise extends Enterprise{
+    
+         public enum UserOrganizationType{
+         Premium("Premium Users Organization"), Standard ("Standard Users Organization"), Guardian("Guardian Organization");
+        
+        private String value;
+        private UserOrganizationType(String value) {
+            this.value = value;
+        }
+        public String getValue() {
+            return value;
+        }
+    }
+    
     public UserEnterprise(String name){
         super(name,EnterpriseType.User);
     }

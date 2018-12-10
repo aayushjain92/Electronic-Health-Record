@@ -11,6 +11,8 @@ import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
 import javax.swing.JPanel;
 import userinterface.AdministrativeRole.AdminWorkAreaJPanel;
+import userinterface.PatientDetails.PatientDashboardJPanel;
+import userinterface.DoctorWorkArea.NurseDashboardJPanel;
 
 /**
  *
@@ -19,9 +21,9 @@ import userinterface.AdministrativeRole.AdminWorkAreaJPanel;
 public class NurseRole extends Role {
     
     @Override
-    public JPanel createWorkArea(JPanel userProcessContainer, UserAccount account, Organization organization, Enterprise enterprise, EcoSystem business) {
-     //   return new AdminWorkAreaJPanel(userProcessContainer, enterprise);
-     return null;
+    public JPanel createWorkArea(JPanel userProcessContainer, UserAccount account, Organization organization, Enterprise enterprise, EcoSystem business) 
+    {
+        return new NurseDashboardJPanel(userProcessContainer, account, organization, enterprise, business);
     }
 
     

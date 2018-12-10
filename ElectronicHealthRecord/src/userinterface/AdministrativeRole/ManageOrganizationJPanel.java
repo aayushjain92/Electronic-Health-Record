@@ -4,6 +4,11 @@
  */
 package userinterface.AdministrativeRole;
 
+import Business.Enterprise.DiagnosticEnterprise;
+import Business.Enterprise.Enterprise;
+import Business.Enterprise.HospitalEnterprise;
+import Business.Enterprise.PharmacyEnterprise;
+import Business.Enterprise.UserEnterprise;
 import Business.Organization.Organization;
 import Business.Organization.Organization.OrganizationType;
 import Business.Organization.OrganizationDirectory;
@@ -19,14 +24,17 @@ public class ManageOrganizationJPanel extends javax.swing.JPanel {
 
     private OrganizationDirectory directory;
     private JPanel userProcessContainer;
+    private Enterprise enterprise;
+    
     
     /**
      * Creates new form ManageOrganizationJPanel
      */
-    public ManageOrganizationJPanel(JPanel userProcessContainer,OrganizationDirectory directory) {
+    public ManageOrganizationJPanel(JPanel userProcessContainer,Enterprise enterprise) {
         initComponents();
         this.userProcessContainer = userProcessContainer;
-        this.directory = directory;
+        this.enterprise = enterprise;
+        this.directory=enterprise.getOrganizationDirectory();
         
         populateTable();
         populateCombo();
@@ -34,9 +42,27 @@ public class ManageOrganizationJPanel extends javax.swing.JPanel {
     
     private void populateCombo(){
         organizationJComboBox.removeAllItems();
-        for (OrganizationType type : Organization.OrganizationType.values()){
-            if (!type.getValue().equals(OrganizationType.Admin.getValue()))
-                organizationJComboBox.addItem(type);
+       
+        if (null != enterprise.getEnterpriseType()) 
+            switch (enterprise.getEnterpriseType()) {
+            case Hospital:
+                for (HospitalEnterprise.HospitalOrganizationType type : HospitalEnterprise.HospitalOrganizationType.values()) {
+                    organizationJComboBox.addItem(type);
+                }   break;
+            case Pharmacy:
+                for (PharmacyEnterprise.PharmacyOrganizationType type : PharmacyEnterprise.PharmacyOrganizationType.values()) {
+                    organizationJComboBox.addItem(type);
+                }   break;
+            case Diagnostic:
+                for (DiagnosticEnterprise.DiagnosticOrganizationType type : DiagnosticEnterprise.DiagnosticOrganizationType.values()) {
+                    organizationJComboBox.addItem(type);
+                }   break;
+            case User:
+                for (UserEnterprise.UserOrganizationType type : UserEnterprise.UserOrganizationType.values()) {
+                    organizationJComboBox.addItem(type);
+                }   break;
+            default:
+                break;
         }
     }
 
@@ -128,22 +154,23 @@ public class ManageOrganizationJPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(111, 111, 111)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(184, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(32, 32, 32)
-                .addComponent(organizationJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(334, 334, 334))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(66, 66, 66)
                 .addComponent(backJButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(addJButton)
                 .addGap(175, 175, 175))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(32, 32, 32)
+                        .addComponent(organizationJComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(111, 111, 111)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(184, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,9 +191,18 @@ public class ManageOrganizationJPanel extends javax.swing.JPanel {
 
     private void addJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addJButtonActionPerformed
 
-        OrganizationType type = (OrganizationType) organizationJComboBox.getSelectedItem();
-        directory.createOrganization(type);
-        populateTable();
+//        OrganizationType type = (OrganizationType) organizationJComboBox.getSelectedItem();
+//        directory.createOrganization(type);
+//        populateTable();
+            for(OrganizationType t: OrganizationType.values()) {
+             if(t.toString().equals(organizationJComboBox.getSelectedItem().toString())) {
+                   OrganizationType type = (OrganizationType) t;
+                   directory.createOrganization(type);
+                   populateTable();
+                   organizationJComboBox.removeItem(organizationJComboBox.getSelectedItem());
+                   break;
+             }
+         }
     }//GEN-LAST:event_addJButtonActionPerformed
 
     private void backJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backJButtonActionPerformed
