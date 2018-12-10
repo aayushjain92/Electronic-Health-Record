@@ -13,6 +13,19 @@ import java.util.ArrayList;
  * @author Aayush
  */
 public class PharmacyEnterprise extends Enterprise{
+    
+    public enum PharmacyOrganizationType{
+         Store("Store Organization"),Finance("Finance Organization");
+        
+        private String value;
+        private PharmacyOrganizationType(String value) {
+            this.value = value;
+        }
+        public String getValue() {
+            return value;
+        }
+    }
+    
     public PharmacyEnterprise(String name){
         super(name,Enterprise.EnterpriseType.Pharmacy);
     }

@@ -49,4 +49,22 @@ public class EnterpriseDirectory {
         }
         return enterprise;
     }
+    
+    public void deleteEnterprise(Enterprise e)
+    {
+        enterpriseList.remove(e);
+    }
+    
+    public ArrayList<Enterprise> getSpecificEnterpriseList(Enterprise.EnterpriseType type) {
+        ArrayList<Enterprise> enterprise = new ArrayList<Enterprise>();
+        if (this.getEnterpriseList() != null) {
+            for (Enterprise e : this.getEnterpriseList()) {
+                if (e.getEnterpriseType().getValue().equals(type.getValue())) {
+                    enterprise.add(e);
+                }
+            }
+        }
+        return enterprise;
+
+    }
 }

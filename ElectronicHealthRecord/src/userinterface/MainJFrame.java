@@ -13,6 +13,8 @@ import Business.UserAccount.UserAccount;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import userinterface.AdministrativeRole.ManageEmployeeJPanel;
+import userinterface.PatientDetails.PatientDashboardJPanel;
 
 /**
  *
@@ -53,6 +55,8 @@ public class MainJFrame extends javax.swing.JFrame {
         container = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(188, 198, 204));
 
         loginJButton.setText("Login");
         loginJButton.addActionListener(new java.awt.event.ActionListener() {
@@ -124,6 +128,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void loginJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginJButtonActionPerformed
         // Get user name
+        
         String userName = userNameJTextField.getText();
         // Get Password
         char[] passwordCharArray = passwordField.getPassword();
@@ -134,6 +139,7 @@ public class MainJFrame extends javax.swing.JFrame {
         
         Enterprise inEnterprise=null;
         Organization inOrganization=null;
+    
         
         if(userAccount==null){
             //Step 2: Go inside each network and check each enterprise
@@ -176,6 +182,10 @@ public class MainJFrame extends javax.swing.JFrame {
             container.add("workArea",userAccount.getRole().createWorkArea(container, userAccount, inOrganization, inEnterprise, system));
             layout.next(container);
         }
+        
+        
+         
+        
         
         loginJButton.setEnabled(false);
         logoutJButton.setEnabled(true);

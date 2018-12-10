@@ -12,7 +12,23 @@ import java.util.ArrayList;
  *
  * @author Aayush
  */
+
+
+
 public class DiagnosticEnterprise extends Enterprise{
+    
+        public enum DiagnosticOrganizationType{
+         Lab("Lab Organization"),Finance("Finance Organization");
+        
+        private String value;
+        private DiagnosticOrganizationType(String value) {
+            this.value = value;
+        }
+        public String getValue() {
+            return value;
+        }
+    }
+    
     public DiagnosticEnterprise(String name){
         super(name,Enterprise.EnterpriseType.Diagnostic);
     }
