@@ -8,17 +8,32 @@ package userinterface.DoctorWorkArea;
 import Business.EcoSystem;
 import Business.Employee.Address;
 import Business.Employee.Doctor;
+import Business.Employee.PremiumPatient;
+import Business.Employee.StandardPatient;
 import Business.Enterprise.Enterprise;
 import Business.Network.Network;
 import Business.Organization.DoctorOrganization;
 import Business.Organization.Organization;
+import Business.Prescription.Prescription;
 import Business.UserAccount.UserAccount;
 import Business.Validations.ValidationResult;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Container;
+import static java.awt.geom.Rectangle2D.union;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.table.DefaultTableModel;
+//import static jdk.management.resource.ResourceContextFactory.isEnabled;
+//import static jdk.management.resource.internal.ResourceNatives.isEnabled;
+//import static jdk.nashorn.internal.runtime.logging.DebugLogger.isEnabled;
+import userinterface.PatientDetails.PatientDashboardJPanel;
 
 /**
  *
@@ -35,8 +50,8 @@ public class DoctorDashboardJPanel extends javax.swing.JPanel {
     private UserAccount userAccount;
     private EcoSystem system;
     private Doctor doctor;
-    
-    public DoctorDashboardJPanel(JPanel userProcessContainer, UserAccount account, DoctorOrganization organization, Enterprise enterprise,EcoSystem system) {
+
+    public DoctorDashboardJPanel(JPanel userProcessContainer, UserAccount account, DoctorOrganization organization, Enterprise enterprise, EcoSystem system) {
         initComponents();
         this.userProcessContainer = userProcessContainer;
         this.organization = organization;
@@ -47,96 +62,94 @@ public class DoctorDashboardJPanel extends javax.swing.JPanel {
         tabSettings();
         editbutton.setEnabled(true);
         savebutton.setEnabled(false);
-        if(account.getEmployee() instanceof Doctor){
-        this.doctor = (Doctor) account.getEmployee();
+        if (account.getEmployee() instanceof Doctor) {
+            this.doctor = (Doctor) account.getEmployee();
         }
-       displayCompleteDoctor();
+        displayCompleteDoctor();
+        populateCountrycombobox();
+
     }
 
-    public void displayCompleteDoctor()
-    {
-            FirstNamejTextField.setText(doctor.getFname());
-            Lastnametxtfeild.setText(doctor.getLname());
-            jDateChooser1.setDate(doctor.getDob());
-            Housenotxtfeild.setText(doctor.getAddress().getApartmentNo());
-            zipcodetxtfeild.setText(doctor.getAddress().getStreetNo());
-            streetNametxtfeild.setText(doctor.getAddress().getStreetName());
-            cityTextField.setText(doctor.getAddress().getCity());
-            
-            
-            if(doctor.getAddress().getCountry()!= null)
-            for(int i = 0; i<countrycombobox.getModel().getSize(); i++)
-            {
-                if(doctor.getAddress().getCountry().equals(countrycombobox.getItemAt(i).toString())){
+    public void displayCompleteDoctor() {
+        FirstNamejTextField.setText(doctor.getFname());
+        Lastnametxtfeild.setText(doctor.getLname());
+//            jDateChooser1.setDate(doctor.getDob());
+        Housenotxtfeild.setText(doctor.getAddress().getApartmentNo());
+        zipcodetxtfeild.setText(doctor.getAddress().getStreetNo());
+        streetNametxtfeild.setText(doctor.getAddress().getStreetName());
+        cityTextField.setText(doctor.getAddress().getCity());
+
+        if (doctor.getAddress().getCountry() != null) {
+            for (int i = 0; i < countrycombobox.getModel().getSize(); i++) {
+                if (doctor.getAddress().getCountry().equals(countrycombobox.getItemAt(i).toString())) {
                     countrycombobox.setSelectedIndex(i);
                     break;
                 }
             }
-            
-            
-            if(doctor.getAddress().getState()!= null)
-            for(int i = 0; i<statecombobox.getModel().getSize(); i++)
-            {
-                if(doctor.getAddress().getState().equals(statecombobox.getItemAt(i).toString())){
+        }
+
+        if (doctor.getAddress().getState() != null) {
+            for (int i = 0; i < statecombobox.getModel().getSize(); i++) {
+                if (doctor.getAddress().getState().equals(statecombobox.getItemAt(i).toString())) {
                     statecombobox.setSelectedIndex(i);
                     break;
                 }
             }
-            
-           zipcodetxtfeild.setText(doctor.getAddress().getZipCode());
-            if(malejRadioButton1.isSelected()) doctor.setGender(malejRadioButton1.getText());
-            else if(femalejRadioButton2.isSelected()) doctor.setGender(femalejRadioButton2.getText());
-            Emailidtxtfeild.setText(doctor.getEmailId());
-            SSNTXTFEILD.setText(doctor.getSsn());
-            Phonetxtfeild.setText(doctor.getPhoneNo());
-            
-            if(doctor.getLanguagesSpoken()!= null)
-            for(int i = 0; i<languagespokencombobox.getModel().getSize(); i++)
-            {
-                if(doctor.getLanguagesSpoken().equals(languagespokencombobox.getItemAt(i).toString())){
+        }
+
+        zipcodetxtfeild.setText(doctor.getAddress().getZipCode());
+        if (malejRadioButton1.isSelected()) {
+            doctor.setGender(malejRadioButton1.getText());
+        } else if (femalejRadioButton2.isSelected()) {
+            doctor.setGender(femalejRadioButton2.getText());
+        }
+        Emailidtxtfeild.setText(doctor.getEmailId());
+        SSNTXTFEILD.setText(doctor.getSsn());
+        Phonetxtfeild.setText(doctor.getPhoneNo());
+
+        if (doctor.getLanguagesSpoken() != null) {
+            for (int i = 0; i < languagespokencombobox.getModel().getSize(); i++) {
+                if (doctor.getLanguagesSpoken().equals(languagespokencombobox.getItemAt(i).toString())) {
                     languagespokencombobox.setSelectedIndex(i);
                     break;
                 }
             }
+        }
     }
-    
-    
-    
-     public void populateCountrycombobox() {
+
+    public void populateCountrycombobox() {
         countrycombobox = new JComboBox();
         countrycombobox.addItem("India");
-        countrycombobox.addItem("United States of America");   
+        countrycombobox.addItem("United States of America");
     }
-    
+
     public void tabSettings() {
-        Prescription.setSelectedIndex(3);
+        Prescription.setSelectedIndex(2);
     }
-    
-     public boolean validateData() 
-//        isStringValidatios()
+
+    public boolean validateData() //        isStringValidatios()
     {
-        boolean b1 = ValidationResult.isnotnull(FirstNamejTextField,FirstNamejTextField.getText());
-        boolean b2 = ValidationResult.isnotnull(Lastnametxtfeild,Lastnametxtfeild.getText());
-       // boolean b3 = ValidationResult.isAString(FATHERNAMEjTextField1,FATHERNAMEjTextField1.getText());
-        boolean b4 = ValidationResult.isemail(Emailidtxtfeild,Emailidtxtfeild.getText());
+        boolean b1 = ValidationResult.isnotnull(FirstNamejTextField, FirstNamejTextField.getText());
+        boolean b2 = ValidationResult.isnotnull(Lastnametxtfeild, Lastnametxtfeild.getText());
+        // boolean b3 = ValidationResult.isAString(FATHERNAMEjTextField1,FATHERNAMEjTextField1.getText());
+        boolean b4 = ValidationResult.isemail(Emailidtxtfeild, Emailidtxtfeild.getText());
         //ValidationResult.isnotnull(FATHERNAMEjTextField1,FATHERNAMEjTextField1.getText());
-        boolean b5 = ValidationResult.isLong(SSNTXTFEILD,SSNTXTFEILD.getText());
+        boolean b5 = ValidationResult.isLong(SSNTXTFEILD, SSNTXTFEILD.getText());
         //ValidationResult.isnotnull(statecombobox,statecombobox.getSelectedItem());
-        boolean b7 = ValidationResult.isLong(Phonetxtfeild,Phonetxtfeild.getText());
-        boolean b8 = ValidationResult.isLong(zipcodetxtfeild,zipcodetxtfeild.getText());
-        boolean b9 = ValidationResult.isnotnull(streetNametxtfeild,streetNametxtfeild.getText());
-        boolean b10 = ValidationResult.isnotnull(streetnotxtfeild,streetnotxtfeild.getText());
-        
-       
+        boolean b7 = ValidationResult.isLong(Phonetxtfeild, Phonetxtfeild.getText());
+        boolean b8 = ValidationResult.isLong(zipcodetxtfeild, zipcodetxtfeild.getText());
+        boolean b9 = ValidationResult.isnotnull(streetNametxtfeild, streetNametxtfeild.getText());
+        boolean b10 = ValidationResult.isnotnull(streetnotxtfeild, streetnotxtfeild.getText());
+
         //ValidationResult.isAString(enametxtfeild,enametxtfeild.getText());
         //ValidationResult.isAString(enameTextField2,enameTextField2.getText());
-        
-        if (b1 && b2 && b4 && b5 && b7 && b8 && b9 && b10)
+        if (b1 && b2 && b4 && b5 && b7 && b8 && b9 && b10) {
             return true;
-        else
-        return false;
+        } else {
+            return false;
+        }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -160,26 +173,20 @@ public class DoctorDashboardJPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jSeparator1 = new javax.swing.JSeparator();
         textField1 = new java.awt.TextField();
-        jLabel11 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         medicinesJTable = new javax.swing.JTable();
         jLabel13 = new javax.swing.JLabel();
-        textField2 = new java.awt.TextField();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        TestsjTable = new javax.swing.JTable();
         prescriptionNumberjTextField = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        label1 = new java.awt.Label();
         datejTextField = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         MMIDfeild = new javax.swing.JTextField();
         prescribedByjTextField = new javax.swing.JTextField();
+        prescribeBtn = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel19 = new javax.swing.JLabel();
@@ -232,7 +239,6 @@ public class DoctorDashboardJPanel extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         FirstNamejTextField = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jLabel5 = new javax.swing.JLabel();
         cityTextField = new javax.swing.JTextField();
 
@@ -331,10 +337,6 @@ public class DoctorDashboardJPanel extends javax.swing.JPanel {
 
         jPanel3.setBackground(new java.awt.Color(8, 141, 165));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane3.setViewportView(jTextArea1);
-
         textField1.setText("                             MEDICINES");
         textField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -342,29 +344,7 @@ public class DoctorDashboardJPanel extends javax.swing.JPanel {
             }
         });
 
-        jLabel11.setText("Medical Observations");
-
         medicinesJTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "S No.", "Name ", "Frequency", "Precautions", "Medical Conditions"
-            }
-        ));
-        jScrollPane2.setViewportView(medicinesJTable);
-
-        jLabel13.setFont(new java.awt.Font("Lucida Sans", 0, 24)); // NOI18N
-        jLabel13.setText("Prescription");
-
-        textField2.setText("TESTS");
-
-        jLabel1.setText("Prescription Number :");
-
-        TestsjTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -372,41 +352,47 @@ public class DoctorDashboardJPanel extends javax.swing.JPanel {
                 {null, null, null}
             },
             new String [] {
-                "S No.", "Test/Vaccine Name", "Prerequisites"
+                "S No.", "Medicinde Names", "Num Of Time Per Day"
             }
         ));
-        jScrollPane4.setViewportView(TestsjTable);
+        jScrollPane2.setViewportView(medicinesJTable);
+
+        jLabel13.setFont(new java.awt.Font("Lucida Sans", 0, 24)); // NOI18N
+        jLabel13.setText("Prescription");
+
+        jLabel1.setText("Prescription Number :");
 
         jLabel14.setText("Date :");
-
-        label1.setText("Sign");
 
         jLabel15.setText("MMID :");
 
         jLabel17.setText("Prescribed By   :");
 
+        prescribeBtn.setText("Prescribe");
+        prescribeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prescribeBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator1)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textField2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(textField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(491, 491, 491)))
-                .addGap(425, 425, 425))
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jSeparator1)
+                            .addComponent(jScrollPane2)
+                            .addComponent(textField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(prescribeBtn)
+                                .addGap(777, 777, 777)))
+                        .addGap(425, 425, 425))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel13)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -427,11 +413,8 @@ public class DoctorDashboardJPanel extends javax.swing.JPanel {
                                 .addGap(86, 86, 86)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(prescribedByjTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(datejTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(654, 654, 654)
-                        .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(datejTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(892, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -458,17 +441,9 @@ public class DoctorDashboardJPanel extends javax.swing.JPanel {
                 .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11))
-                .addGap(37, 37, 37)
-                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1401, Short.MAX_VALUE))
+                .addGap(294, 294, 294)
+                .addComponent(prescribeBtn)
+                .addContainerGap(1377, Short.MAX_VALUE))
         );
 
         Prescription.addTab("Prescription", jPanel3);
@@ -732,72 +707,70 @@ public class DoctorDashboardJPanel extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel27)
-                            .addComponent(jLabel28)
-                            .addComponent(jLabel29)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(Lastnametxtfeild, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 685, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(malejRadioButton1)
-                                        .addGap(41, 41, 41)
-                                        .addComponent(femalejRadioButton2))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel16)
-                                        .addGap(75, 75, 75)
-                                        .addComponent(Emailidtxtfeild, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(39, 39, 39))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(cityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(statecombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(streetNametxtfeild, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(streetnotxtfeild, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel18)
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel20)
-                                    .addComponent(jLabel34))
-                                .addGap(26, 26, 26)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(countrycombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(Phonetxtfeild, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
-                                        .addComponent(SSNTXTFEILD, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
-                                        .addComponent(languagespokencombobox, 0, 185, Short.MAX_VALUE)
-                                        .addComponent(Housenotxtfeild, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
-                                        .addComponent(zipcodetxtfeild)))
-                                .addGap(214, 214, 214))))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel27)
+                                .addComponent(jLabel28)
+                                .addComponent(jLabel29)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(Lastnametxtfeild, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 692, Short.MAX_VALUE)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(malejRadioButton1)
+                                            .addGap(41, 41, 41)
+                                            .addComponent(femalejRadioButton2))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                            .addComponent(jLabel16)
+                                            .addGap(75, 75, 75)
+                                            .addComponent(Emailidtxtfeild, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(39, 39, 39))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(cityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(statecombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(streetNametxtfeild, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(streetnotxtfeild, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel18)
+                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel20)
+                                        .addComponent(jLabel34))
+                                    .addGap(26, 26, 26)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(countrycombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(Phonetxtfeild, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                                            .addComponent(SSNTXTFEILD, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                                            .addComponent(languagespokencombobox, 0, 185, Short.MAX_VALUE)
+                                            .addComponent(Housenotxtfeild, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                                            .addComponent(zipcodetxtfeild)))
+                                    .addGap(214, 214, 214))))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addGap(0, 0, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel31)
+                                .addComponent(jLabel30))
+                            .addGap(479, 479, 479)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel31)
-                            .addComponent(jLabel30))
-                        .addGap(479, 479, 479))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(editbutton)
-                .addGap(39, 39, 39)
-                .addComponent(savebutton)
-                .addGap(526, 526, 526))
+                        .addComponent(editbutton)
+                        .addGap(39, 39, 39)
+                        .addComponent(savebutton)
+                        .addGap(526, 526, 526))))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -814,22 +787,19 @@ public class DoctorDashboardJPanel extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(47, 47, 47)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel4)
-                                        .addComponent(Lastnametxtfeild, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel12)
-                                        .addComponent(malejRadioButton1)
-                                        .addComponent(femalejRadioButton2)))
-                                .addGap(25, 25, 25)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel16)
-                                        .addComponent(Emailidtxtfeild, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel7)))
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel4)
+                                .addComponent(Lastnametxtfeild, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel12)
+                                .addComponent(malejRadioButton1)
+                                .addComponent(femalejRadioButton2)))
+                        .addGap(25, 25, 25)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel16)
+                                .addComponent(Emailidtxtfeild, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel7))
                         .addGap(29, 29, 29)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(SSNTXTFEILD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -904,9 +874,8 @@ public class DoctorDashboardJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_HousenotxtfeildActionPerformed
 
     private void countrycomboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_countrycomboboxActionPerformed
-            
-        if(countrycombobox.getSelectedItem().toString().equalsIgnoreCase("India"))
-        {
+
+        if (countrycombobox.getSelectedItem().toString().equalsIgnoreCase("India")) {
             statecombobox.removeAllItems();
 
             statecombobox.addItem("Andhrapradesh");
@@ -945,10 +914,7 @@ public class DoctorDashboardJPanel extends javax.swing.JPanel {
             statecombobox.addItem("Uttaranchal");
             statecombobox.addItem("West Bengal");
 
-        }
-
-        else if ( countrycombobox.getSelectedItem().toString().equalsIgnoreCase("United states of america") )
-        {
+        } else if (countrycombobox.getSelectedItem().toString().equalsIgnoreCase("United states of america")) {
             statecombobox.removeAllItems();
 
             statecombobox.addItem("Alabama");
@@ -1006,7 +972,7 @@ public class DoctorDashboardJPanel extends javax.swing.JPanel {
 
     private void countrycomboboxPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_countrycomboboxPropertyChange
         // TODO add your handling code here:
-      
+
     }//GEN-LAST:event_countrycomboboxPropertyChange
 
     private void zipcodetxtfeildActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zipcodetxtfeildActionPerformed
@@ -1025,62 +991,124 @@ public class DoctorDashboardJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_Phonetxtfeild1ActionPerformed
 
-    public void groupButtonSelection(){
+    public void groupButtonSelection() {
         ButtonGroup groupGender = new ButtonGroup();
         groupGender.add(malejRadioButton1);
         groupGender.add(femalejRadioButton2);
-        
+
     }
-    
+
     private void mmidSerachTxtFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mmidSerachTxtFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_mmidSerachTxtFieldActionPerformed
 
+    public List<Component> getAllComponents(final Container c) {
+        Component[] comps = c.getComponents();
+        List<Component> compList = new ArrayList<Component>();
+        for (Component comp : comps) {
+            compList.add(comp);
+            if (comp instanceof Container) {
+                compList.addAll(getAllComponents((Container) comp));
+            }
+        }
+        return compList;
+    }
+
     private void mmidSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mmidSearchBtnActionPerformed
         // TODO add your handling code here:
-        if(mmidSerachTxtField.getText() != "" && mmidSerachTxtField.getText() != null) {
+        boolean flag=false;
+        if (mmidSerachTxtField.getText() != "" && mmidSerachTxtField.getText() != null) {
             String value = mmidSerachTxtField.getText();
-            for(Network network:system.getNetworkList()) {
+            for (Network network : system.getNetworkList()) {
                 ArrayList<Enterprise> user = network.getEnterpriseDirectory().getSpecificEnterpriseList(Enterprise.EnterpriseType.User);
-                for (Enterprise u: user) {
+                for (Enterprise u : user) {
                     ArrayList<Organization> org = (u.getOrganizationDirectory().getOrganizationList());
-                    for(Organization o : org) {
-//                        System.out.println(o.);
+                    for (Organization o : org) {
+                        for (UserAccount ua : o.getUserAccountDirectory().getUserAccountList()) {
+                            if (ua.getEmployee() instanceof StandardPatient) {
+                                StandardPatient s = (StandardPatient) ua.getEmployee();
+                                if (s.getMmid() != null && s.getMmid().equals(value)) {
+                                    flag=true;
+                                    PatientDashboardJPanel pddjp = new PatientDashboardJPanel(userProcessContainer, ua, o, enterprise, system);
+                                    userProcessContainer.add("PatientDashboardJPanel", pddjp);
+                                    CardLayout layout = (CardLayout) userProcessContainer.getLayout();
+                                    layout.next(userProcessContainer);
+                                    List<Component> comps = getAllComponents(pddjp);
+                                    for (Component comp : comps) {
+                                        if (!(comp instanceof JTabbedPane) || (comp instanceof JButton)) {
+                                            System.out.println(comp);
+                                            comp.setEnabled(false);
+                                            PatientDashboardJPanel.patientBackjButton.setEnabled(true);
+                                        }
+                                    }
+                                }
+                            } else if (ua.getEmployee() instanceof PremiumPatient) {
+                                PremiumPatient s = (PremiumPatient) ua.getEmployee();
+                                if (s.getMmid() != null && s.getMmid().equals(value)) {
+                                    flag=true;
+                                    PatientDashboardJPanel pddjp = new PatientDashboardJPanel(userProcessContainer, ua, o, enterprise, system);
+                                    userProcessContainer.add("PatientDashboardJPanel", pddjp);
+                                    List<Component> comps = getAllComponents(pddjp);
+                                    for (Component comp : comps) {
+                                        if (!(comp instanceof JTabbedPane) || (comp instanceof JButton)) {
+                                           // System.out.println(comp);
+                                            comp.setEnabled(false);
+                                            PatientDashboardJPanel.patientBackjButton.setEnabled(true);
+                                        }
+                                    }
+                                    CardLayout layout = (CardLayout) userProcessContainer.getLayout();
+                                    layout.next(userProcessContainer);
+                                }
+                            } 
+                                //else {
+//                               JOptionPane.showMessageDialog(null, "Entered MMID does not exist");
+//                            }
+                        }
                     }
                 }
 
             }
-            
+             if(!flag)
+            {
+                JOptionPane.showMessageDialog(null, "MMID not found! Please try again.");
+            }
+
         }
+ else
+            JOptionPane.showMessageDialog(null, "The value cannot be null");
+
     }//GEN-LAST:event_mmidSearchBtnActionPerformed
+
 
     private void savebuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savebuttonActionPerformed
         // TODO add your handling code here:
-        if(validateData())
-        {
+        if (validateData()) {
             doctor.setFname(FirstNamejTextField.getText());
             doctor.setLname(Lastnametxtfeild.getText());
-            doctor.setDob(jDateChooser1.getDate());
+//            doctor.setDob(jDateChooser1.getDate());
             doctor.getAddress().setApartmentNo(Housenotxtfeild.getText());
             doctor.getAddress().setStreetNo(zipcodetxtfeild.getText());
             doctor.getAddress().setStreetName(streetNametxtfeild.getText());
             doctor.getAddress().setCity(cityTextField.getText());
-            doctor.getAddress().setState((String)statecombobox.getSelectedItem());
+            doctor.getAddress().setState((String) statecombobox.getSelectedItem());
             doctor.getAddress().setCountry((String) countrycombobox.getSelectedItem());
             doctor.getAddress().setZipCode(zipcodetxtfeild.getText());
-            if(malejRadioButton1.isSelected()) doctor.setGender(malejRadioButton1.getText());
-            else if(femalejRadioButton2.isSelected()) doctor.setGender(femalejRadioButton2.getText());
+            if (malejRadioButton1.isSelected()) {
+                doctor.setGender(malejRadioButton1.getText());
+            } else if (femalejRadioButton2.isSelected()) {
+                doctor.setGender(femalejRadioButton2.getText());
+            }
             doctor.setEmailId(Emailidtxtfeild.getText());
             doctor.setSsn(SSNTXTFEILD.getText());
             doctor.setPhoneNo(Phonetxtfeild.getText());
             doctor.setLanguagesSpoken((String) languagespokencombobox.getSelectedItem());
             JOptionPane.showMessageDialog(null, "Data Updated Successfully");
-            
+
             editbutton.setEnabled(true);
             savebutton.setEnabled(false);
-        }
-        else
+        } else {
             JOptionPane.showMessageDialog(null, "Please correct the data");
+        }
     }//GEN-LAST:event_savebuttonActionPerformed
 
     private void FirstNamejTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FirstNamejTextFieldActionPerformed
@@ -1091,12 +1119,99 @@ public class DoctorDashboardJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         editbutton.setEnabled(false);
         savebutton.setEnabled(true);
-        
+
     }//GEN-LAST:event_editbuttonActionPerformed
 
     private void streetNametxtfeildActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_streetNametxtfeildActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_streetNametxtfeildActionPerformed
+
+    private void prescribeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prescribeBtnActionPerformed
+        // TODO add your handling code here:
+        StandardPatient stdPatient = null;
+        PremiumPatient prePatient = null;
+        if (MMIDfeild.getText() != null && MMIDfeild.getText() != "") {
+            for (Network network : system.getNetworkList()) {
+                ArrayList<Enterprise> user = network.getEnterpriseDirectory().getSpecificEnterpriseList(Enterprise.EnterpriseType.User);
+                for (Enterprise u : user) {
+                    ArrayList<Organization> org = (u.getOrganizationDirectory().getOrganizationList());
+                    for (Organization o : org) {
+                        for (UserAccount ua : o.getUserAccountDirectory().getUserAccountList()) {
+                            if (ua.getEmployee() instanceof StandardPatient) {
+                                StandardPatient s = (StandardPatient) ua.getEmployee();
+                                if (s.getMmid() != null && s.getMmid().equals(MMIDfeild.getText())) {
+                                    stdPatient = (StandardPatient) s;
+                                }
+                            } else if (ua.getEmployee() instanceof PremiumPatient) {
+                                PremiumPatient s = (PremiumPatient) ua.getEmployee();
+                                if (s.getMmid() != null && s.getMmid().equals(MMIDfeild.getText())) {
+                                    prePatient = (PremiumPatient) s;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "The value cannot be null");
+        }
+
+        if (stdPatient != null) {
+            Prescription p = new Prescription();
+            ArrayList<Prescription> presList = stdPatient.getPrescriptions();
+            p.setPrescriptionNum(Integer.parseInt(prescriptionNumberjTextField.getText()));
+            p.setDate(datejTextField.getText());
+            p.setPrescribedBy(this.userAccount.getEmployee().getName());
+            DefaultTableModel model = (DefaultTableModel) medicinesJTable.getModel();
+            if (model.getRowCount() > 0) {
+                ArrayList<String> medName = new ArrayList<String>();
+                ArrayList<Integer> numOfTimePerDay = new ArrayList<Integer>();
+                for (int i = 0; i < model.getRowCount(); i++) {
+                    if (model.getValueAt(i, 1) != null) {
+                        medName.add(model.getValueAt(i, 1).toString());
+                    }
+                    if (model.getValueAt(i, 2) != null) {
+                        numOfTimePerDay.add(Integer.parseInt(model.getValueAt(i, 2).toString()));
+                    }
+                }
+                if (medName != null) {
+                    p.setMedicineName(medName);
+                }
+                if (numOfTimePerDay != null) {
+                    p.setNumOfTimesPerDay(numOfTimePerDay);
+                }
+            }
+            if (presList != null && presList.size() > 0) {
+                presList.add(p);
+                stdPatient.setPrescriptions(presList);
+                
+                JOptionPane.showMessageDialog(null, "Prescription sent to Patient");
+            } else {
+                presList = new ArrayList<Prescription>();
+                presList.add(p);
+                stdPatient.setPrescriptions(presList);
+                JOptionPane.showMessageDialog(null, "Prescription sent to Patient");
+            }
+        } else if (prePatient != null) {
+            Prescription p = new Prescription();
+            ArrayList<Prescription> presList = prePatient.getPrescriptions();
+            p.setPrescriptionNum(Integer.parseInt(prescriptionNumberjTextField.getText()));
+            p.setDate(datejTextField.getText());
+            if (presList != null && presList.size() > 0) {
+                presList.add(p);
+                prePatient.setPrescriptions(presList);
+                JOptionPane.showMessageDialog(null, "Prescription sent to Patient");
+            } else {
+                presList = new ArrayList<Prescription>();
+                presList.add(p);
+                prePatient.setPrescriptions(presList);
+                JOptionPane.showMessageDialog(null, "Prescription sent to Patient");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Patient not found");
+        }
+        
+    }//GEN-LAST:event_prescribeBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1111,7 +1226,6 @@ public class DoctorDashboardJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField Phonetxtfeild1;
     private javax.swing.JTabbedPane Prescription;
     private javax.swing.JTextField SSNTXTFEILD;
-    private javax.swing.JTable TestsjTable;
     private javax.swing.JButton acceptButton;
     private javax.swing.JTextField addresstxtfeild1;
     private javax.swing.JTextField cityTextField;
@@ -1120,10 +1234,8 @@ public class DoctorDashboardJPanel extends javax.swing.JPanel {
     private javax.swing.JButton editbutton;
     private javax.swing.JRadioButton femalejRadioButton2;
     private javax.swing.JButton jButton1;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -1160,23 +1272,20 @@ public class DoctorDashboardJPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
-    private java.awt.Label label1;
     private javax.swing.JComboBox languagespokencombobox;
     private javax.swing.JRadioButton malejRadioButton1;
     private javax.swing.JTable medicinesJTable;
     private javax.swing.JButton mmidSearchBtn;
     private javax.swing.JTextField mmidSerachTxtField;
     private javax.swing.JTextField patientNameTextField;
+    private javax.swing.JButton prescribeBtn;
     private javax.swing.JTextField prescribedByjTextField;
     private javax.swing.JTextField prescriptionNumberjTextField;
     private javax.swing.JTextField problemTextField;
@@ -1186,7 +1295,6 @@ public class DoctorDashboardJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField streetNametxtfeild;
     private javax.swing.JTextField streetnotxtfeild;
     private java.awt.TextField textField1;
-    private java.awt.TextField textField2;
     private javax.swing.JTextField timingsTesxtfeild;
     private javax.swing.JTextField zipcodetxtfeild;
     // End of variables declaration//GEN-END:variables

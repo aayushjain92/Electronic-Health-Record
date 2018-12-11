@@ -5,6 +5,9 @@
  */
 package Business.Employee;
 
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
+import java.util.Date;
+
 /**
  *
  * @author Aayush
@@ -13,6 +16,14 @@ public class Doctor extends Employee{
     private String fname;
     private String lname;
     private String languagesSpoken;
+    private Date dateOFBirth;
+//    private int streetNumber;
+//    private String city;
+//    private int zipCode;
+//    private int houseNo;
+//    private String country;
+    
+    
 
     public String getFname() {
         return fname;
@@ -37,6 +48,15 @@ public class Doctor extends Employee{
     public void setLanguagesSpoken(String languagesSpoken) {
         this.languagesSpoken = languagesSpoken;
     }
+
+    public Date getDateOFBirth() {
+        return dateOFBirth;
+    }
+
+    public void setDateOFBirth(Date dateOFBirth) {
+        this.dateOFBirth = dateOFBirth;
+    }
+
     
     
     

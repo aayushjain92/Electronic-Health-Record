@@ -6,10 +6,26 @@
 package userinterface.PharmaWorkArea;
 
 import Business.EcoSystem;
+import Business.Employee.PremiumPatient;
+import Business.Employee.StandardPatient;
+import Business.Employee.StoreEmployee;
 import Business.Enterprise.Enterprise;
+import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
+import Business.Validations.ValidationResult;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import userinterface.PatientDetails.LabPatientDashboard;
+import userinterface.PatientDetails.PatientDashboardJPanel;
+import userinterface.PatientDetails.patientPharmaDashboard;
 /**
  *
  * @author janakidevikandukuri
@@ -25,6 +41,7 @@ public class PharmaStoreDashboardJPanel extends javax.swing.JPanel {
     private Organization organization;
     private Enterprise enterprise;
     private EcoSystem business;
+    private StoreEmployee storeEmployee;
     
     
     public PharmaStoreDashboardJPanel(JPanel userProcessContainer, UserAccount account, Organization organization, Enterprise enterprise, EcoSystem business) {
@@ -34,7 +51,41 @@ public class PharmaStoreDashboardJPanel extends javax.swing.JPanel {
         this.organization = organization;
         this.enterprise = enterprise;
         this.business = business;
+        
+        if(account.getEmployee() instanceof StoreEmployee)
+        {
+            
+            this.storeEmployee=(StoreEmployee) account.getEmployee();
+        }
+        displayPharmadetails();
 
+    }
+    public void displayPharmadetails(){
+        pharmaNamejTextField.setText(storeEmployee.getPharmacyName());
+          //dateOfRegistrationjTextField.setText(labAssistant.getRegistrationDate());
+        //streetnotxtfeild.setText(labAssistant.getAddress().getStreetNo());
+        //    jDateChooser1.setDate(doctor.getDob());
+        System.out.println(storeEmployee);
+        System.out.println("hi");
+        addresstxtfeild1.setText(storeEmployee.getAddress().getStreetName());
+        timingsTesxtfeild.setText(storeEmployee.getAddress().getCity());
+        Phonetxtfeild1.setText(storeEmployee.getPhoneNo());
+        Middlenametxtfeild1.setText(storeEmployee.getBestTimeToVisit());
+       pharmaNametxtfeild.setText(storeEmployee.getPharmacyName());
+       Middlenametxtfeild.setText(storeEmployee.getOwnerName());
+       FirstNamejTextField1.setText(storeEmployee.getDateOfRegistration());
+       addresstxtfeild.setText(storeEmployee.getAddress().getStreetName());
+       streetnotxtfeild.setText(storeEmployee.getAddress().getState());
+       Phonetxtfeild.setText(storeEmployee.getAddress().getState());
+       city.setText(storeEmployee.getAddress().getCity());
+       pharmacountry.setText(storeEmployee.getClassification());
+       storemanger.setText(storeEmployee.getStoreManager());
+       besttimetovisti.setText(storeEmployee.getBestTimeToVisit());
+       emailid.setText(storeEmployee.getEmailId());
+       licensenumber.setText(storeEmployee.getLicenseNumber());
+       country.setText(storeEmployee.getAddress().getCountry());
+       phonenumberjTextField2.setText(storeEmployee.getPhoneNo());
+        
     }
 
     /**
@@ -49,7 +100,7 @@ public class PharmaStoreDashboardJPanel extends javax.swing.JPanel {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
-        FirstNamejTextField2 = new javax.swing.JTextField();
+        pharmaNamejTextField = new javax.swing.JTextField();
         jLabel33 = new javax.swing.JLabel();
         addresstxtfeild1 = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
@@ -60,7 +111,7 @@ public class PharmaStoreDashboardJPanel extends javax.swing.JPanel {
         jLabel35 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         MmidSerach = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        searchjButton = new javax.swing.JButton();
         jLabel24 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
@@ -83,7 +134,7 @@ public class PharmaStoreDashboardJPanel extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         Middlenametxtfeild = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        DOBtxtfeild = new javax.swing.JTextField();
+        pharmaNametxtfeild = new javax.swing.JTextField();
         jLabel27 = new javax.swing.JLabel();
         addresstxtfeild = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
@@ -107,12 +158,14 @@ public class PharmaStoreDashboardJPanel extends javax.swing.JPanel {
         save = new javax.swing.JButton();
         edit = new javax.swing.JButton();
         city = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        phonenumberjTextField2 = new javax.swing.JTextField();
 
         jPanel1.setBackground(new java.awt.Color(0, 128, 128));
 
         jLabel19.setText("PHARMACY NAME *");
 
-        jLabel33.setText("ADDRESS  *");
+        jLabel33.setText("STREET NAME  *");
 
         jLabel21.setText("TIMINGS*");
 
@@ -134,10 +187,10 @@ public class PharmaStoreDashboardJPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton2.setText("Search");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        searchjButton.setText("Search");
+        searchjButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                searchjButtonActionPerformed(evt);
             }
         });
 
@@ -167,14 +220,14 @@ public class PharmaStoreDashboardJPanel extends javax.swing.JPanel {
                         .addGap(151, 151, 151)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(addresstxtfeild1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(FirstNamejTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(pharmaNamejTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 704, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -204,14 +257,14 @@ public class PharmaStoreDashboardJPanel extends javax.swing.JPanel {
                             .addGap(41, 41, 41)
                             .addComponent(MmidSerach, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton2)))
+                            .addComponent(searchjButton)))
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(65, 65, 65)
-                .addComponent(FirstNamejTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pharmaNamejTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(addresstxtfeild1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 199, Short.MAX_VALUE)
@@ -240,7 +293,7 @@ public class PharmaStoreDashboardJPanel extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel22)
                         .addComponent(MmidSerach, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton2))
+                        .addComponent(searchjButton))
                     .addContainerGap(415, Short.MAX_VALUE)))
         );
 
@@ -345,7 +398,7 @@ public class PharmaStoreDashboardJPanel extends javax.swing.JPanel {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 732, Short.MAX_VALUE)
+            .addGap(0, 754, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -356,13 +409,13 @@ public class PharmaStoreDashboardJPanel extends javax.swing.JPanel {
 
         jPanel2.setBackground(new java.awt.Color(0, 128, 128));
 
-        jLabel3.setText("PHARMACY NAME");
+        jLabel3.setText("PHARMACY NAME*");
 
-        jLabel4.setText("OWNER NAME *");
+        jLabel4.setText("OWNER NAME ");
 
         jLabel7.setText("DATE OF REGISTRATION");
 
-        jLabel27.setText("ADDRESS  *");
+        jLabel27.setText("STREET NAME  *");
 
         jLabel28.setText("STREET NO *");
 
@@ -395,8 +448,15 @@ public class PharmaStoreDashboardJPanel extends javax.swing.JPanel {
         });
 
         save.setText("SAVE");
+        save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveActionPerformed(evt);
+            }
+        });
 
         edit.setText("EDIT");
+
+        jLabel15.setText("PHONE NUMBER");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -409,7 +469,7 @@ public class PharmaStoreDashboardJPanel extends javax.swing.JPanel {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(DOBtxtfeild, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(pharmaNametxtfeild, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -444,22 +504,24 @@ public class PharmaStoreDashboardJPanel extends javax.swing.JPanel {
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel5)
                                 .addComponent(jLabel8))
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(storemanger, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                            .addComponent(besttimetovisti)
-                            .addComponent(emailid)
-                            .addComponent(licensenumber)))
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel15))
+                        .addGap(50, 56, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(storemanger, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                                .addComponent(besttimetovisti)
+                                .addComponent(emailid)
+                                .addComponent(licensenumber))
+                            .addComponent(phonenumberjTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 201, Short.MAX_VALUE)
-                        .addComponent(pharmacountry, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
-                        .addComponent(jLabel10)
-                        .addGap(54, 54, 54)
-                        .addComponent(country, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pharmacountry, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addGap(54, 54, 54)
+                                .addComponent(country, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(14, 14, 14))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(291, 291, 291)
@@ -472,7 +534,7 @@ public class PharmaStoreDashboardJPanel extends javax.swing.JPanel {
                 .addGap(63, 63, 63)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(DOBtxtfeild, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pharmaNametxtfeild, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(pharmacountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -524,8 +586,10 @@ public class PharmaStoreDashboardJPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(city, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                    .addComponent(city, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15)
+                    .addComponent(phonenumberjTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(edit)
                     .addComponent(save))
@@ -539,8 +603,8 @@ public class PharmaStoreDashboardJPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 12, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 753, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 775, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -559,10 +623,89 @@ public class PharmaStoreDashboardJPanel extends javax.swing.JPanel {
     private void acceptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_acceptButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_acceptButtonActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+     public List<Component> getAllComponents(final Container c) {
+        Component[] comps = c.getComponents();
+        List<Component> compList = new ArrayList<Component>();
+        for (Component comp : comps) {
+            compList.add(comp);
+            if (comp instanceof Container) {
+                compList.addAll(getAllComponents((Container) comp));
+            }
+        }
+        return compList;
+    }
+    private void searchjButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchjButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        boolean flag = false;
+        if (MmidSerach.getText() != "" && MmidSerach.getText() != null) {
+            String value = MmidSerach.getText();
+            for (Network network : business.getNetworkList()) {
+                ArrayList<Enterprise> user = network.getEnterpriseDirectory().getSpecificEnterpriseList(Enterprise.EnterpriseType.User);
+                for (Enterprise u : user) {
+                    ArrayList<Organization> org = (u.getOrganizationDirectory().getOrganizationList());
+                    for (Organization o : org) {
+                        for (UserAccount ua : o.getUserAccountDirectory().getUserAccountList()) {
+                            if (ua.getEmployee() instanceof StandardPatient) {
+                                StandardPatient s = (StandardPatient) ua.getEmployee();
+                                if (s.getMmid() != null && s.getMmid().equals(value)) {
+                                    flag = true;
+                                    patientPharmaDashboard pddjp = new patientPharmaDashboard(userProcessContainer,ua,o, enterprise, business);
+                                    userProcessContainer.add("patientPharmaDashboard", pddjp);
+                                    CardLayout layout = (CardLayout) userProcessContainer.getLayout();
+                                    layout.next(userProcessContainer);
+                                    List<Component> comps = getAllComponents(pddjp);
+                                   for (Component comp : comps) {
+                                        if (!(comp instanceof JTabbedPane) || (comp instanceof JButton)) {
+                                            System.out.println(comp);
+                                            comp.setEnabled(false);
+                                            patientPharmaDashboard.backjButton.setEnabled(true);
+                                        }
+                                    }
+
+                                }
+                            } else if (ua.getEmployee() instanceof PremiumPatient) {
+                                PremiumPatient s = (PremiumPatient) ua.getEmployee();
+                                if (s.getMmid() != null && s.getMmid().equals(value)) {
+                                    LabPatientDashboard pddjp = new LabPatientDashboard(userProcessContainer,ua,o, enterprise, business);
+                                    userProcessContainer.add("LabPatientDashboard", pddjp);
+                                    for (Component cp : userProcessContainer.getComponents() ){
+                                          cp.setEnabled(false);}
+                                    CardLayout layout = (CardLayout) userProcessContainer.getLayout();
+                                    layout.next(userProcessContainer);
+                                    
+                                      //to disbale the Dashboard of the patient
+                     List<Component> comps = getAllComponents(pddjp);
+                                   for (Component comp : comps) {
+                                        if (!(comp instanceof JTabbedPane) || (comp instanceof JButton)) {
+                                            System.out.println(comp);
+                                            comp.setEnabled(false);
+                                            PatientDashboardJPanel.patientBackjButton.setEnabled(true);
+                                        }
+                                    }                                                            
+                                    
+                                   
+                                }
+                            }
+                                    //
+                                    //
+//                                    else
+//                                JOptionPane.showMessageDialog(null,"Entered MMID does not exist");
+
+                        }
+                    }
+                }
+
+            }
+            if(!flag)
+            {
+                JOptionPane.showMessageDialog(null, "MMID not found! Please try again.");
+            }
+
+        }
+        else
+            JOptionPane.showMessageDialog(null, "The value cannot be null");
+        
+    }//GEN-LAST:event_searchjButtonActionPerformed
 
     private void MmidSerachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MmidSerachActionPerformed
         // TODO add your handling code here:
@@ -571,12 +714,61 @@ public class PharmaStoreDashboardJPanel extends javax.swing.JPanel {
     private void Phonetxtfeild1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Phonetxtfeild1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Phonetxtfeild1ActionPerformed
+    public boolean validateData() //        isStringValidatios()
+   {
+       boolean b1 = ValidationResult.isnotnull(pharmaNametxtfeild, pharmaNametxtfeild.getText());
+       boolean b2 = ValidationResult.isnotnull(streetnotxtfeild, streetnotxtfeild.getText());
+       boolean b3 = ValidationResult.isnotnull(Phonetxtfeild, Phonetxtfeild.getText());
+       boolean b4 = ValidationResult.isnotnull(city, city.getText());
+       boolean b5 = ValidationResult.isnotnull(country, country.getText());
+       // boolean b3 = ValidationResult.isAString(FATHERNAMEjTextField1,FATHERNAMEjTextField1.getText());
+       boolean b6 = ValidationResult.isemail(emailid, emailid.getText());
+       //ValidationResult.isnotnull(FATHERNAMEjTextField1,FATHERNAMEjTextField1.getText());
+       boolean b7 = ValidationResult.isLong(licensenumber, licensenumber.getText());
+       //ValidationResult.isnotnull(statecombobox,statecombobox.getSelectedItem());
+       
 
+       //ValidationResult.isAString(enametxtfeild,enametxtfeild.getText());
+       //ValidationResult.isAString(enameTextField2,enameTextField2.getText());
+       if (b1 && b2 && b3 && b4 && b5 && b6 && b7 ) {
+           return true;
+       } else {
+           return false;
+       }
+   }
+    private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
+        // TODO add your handling code here:
+        if(validateData())
+        {
+        storeEmployee.setPharmacyName(pharmaNametxtfeild.getText());
+        storeEmployee.setOwnerName(Middlenametxtfeild.getText());
+        storeEmployee.setDateOfRegistration(FirstNamejTextField1.getText());
+        storeEmployee.setPhoneNo(phonenumberjTextField2.getText());
+            //doctor.getAddress().setApartmentNo(Housenotxtfeild.getText());
+            storeEmployee.getAddress().setStreetNo(streetnotxtfeild.getText());
+            storeEmployee.getAddress().setStreetName(addresstxtfeild.getText());
+            storeEmployee.getAddress().setCity(city.getText());
+            storeEmployee.getAddress().setState( Phonetxtfeild.getText());
+            storeEmployee.getAddress().setCountry(country.getText());
+            
+            storeEmployee.setClassification(pharmacountry.getText());
+          
+            storeEmployee.setEmailId(emailid.getText());
+            storeEmployee.setStoreManager(storemanger.getText());
+            storeEmployee.setBestTimeToVisit(besttimetovisti.getText());
+            storeEmployee.setLicenseNumber(emailid.getText());
+            //doctor.setLanguagesSpoken((String) languagespokencombobox.getSelectedItem());
+            JOptionPane.showMessageDialog(null, "Data Updated Successfully");
+
+            edit.setEnabled(true);
+            save.setEnabled(false);}
+        else
+         JOptionPane.showMessageDialog(null, "Data Updated Successfully"); 
+    }//GEN-LAST:event_saveActionPerformed
+          
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField DOBtxtfeild;
     private javax.swing.JTextField FirstNamejTextField1;
-    private javax.swing.JTextField FirstNamejTextField2;
     private javax.swing.JTextField Middlenametxtfeild;
     private javax.swing.JTextField Middlenametxtfeild1;
     private javax.swing.JTextField MmidSerach;
@@ -591,13 +783,13 @@ public class PharmaStoreDashboardJPanel extends javax.swing.JPanel {
     private javax.swing.JButton edit;
     private javax.swing.JTextField emailid;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel21;
@@ -628,10 +820,14 @@ public class PharmaStoreDashboardJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField licensenumber;
     private javax.swing.JTextField patientNameTextField;
+    private javax.swing.JTextField pharmaNamejTextField;
+    private javax.swing.JTextField pharmaNametxtfeild;
     private javax.swing.JTextField pharmacountry;
+    private javax.swing.JTextField phonenumberjTextField2;
     private javax.swing.JTextField problemTextField;
     private javax.swing.JButton rejectButton;
     private javax.swing.JButton save;
+    private javax.swing.JButton searchjButton;
     private javax.swing.JTextField storemanger;
     private javax.swing.JTextField streetnotxtfeild;
     private javax.swing.JTextField timingsTesxtfeild;
