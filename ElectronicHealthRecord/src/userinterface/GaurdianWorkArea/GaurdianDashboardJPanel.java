@@ -6,10 +6,18 @@
 package userinterface.GaurdianWorkArea;
 
 import Business.EcoSystem;
+import Business.Employee.PremiumPatient;
+import Business.Employee.StandardPatient;
 import Business.Enterprise.Enterprise;
+import Business.Network.Network;
 import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import userinterface.PatientDetails.PatientDashboardJPanel;
 
 /**
  *
@@ -93,6 +101,11 @@ public class GaurdianDashboardJPanel extends javax.swing.JPanel {
         jLabel9.setText("MMID ");
 
         SEARCHBUTTON.setText("search");
+        SEARCHBUTTON.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SEARCHBUTTONActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -195,6 +208,64 @@ public class GaurdianDashboardJPanel extends javax.swing.JPanel {
                 .addGap(159, 159, 159))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void SEARCHBUTTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SEARCHBUTTONActionPerformed
+        // TODO add your handling code here:
+         boolean flag;   
+        if (mmidsearch.getText() != "" && mmidsearch.getText() != null) {
+            String value = mmidsearch.getText();
+            for (Network network : business.getNetworkList()) {
+                ArrayList<Enterprise> user = network.getEnterpriseDirectory().getSpecificEnterpriseList(Enterprise.EnterpriseType.User);
+                for (Enterprise u : user) {
+                    ArrayList<Organization> org = (u.getOrganizationDirectory().getOrganizationList());
+                    for (Organization o : org) {
+                        for (UserAccount ua : o.getUserAccountDirectory().getUserAccountList()) {
+                            if (ua.getEmployee() instanceof StandardPatient) {
+                                StandardPatient s = (StandardPatient) ua.getEmployee();
+                                if (s.getMmid() != null && s.getMmid().equals(value)) {
+                                    flag=true;
+                                    PatientDashboardJPanel pddjp = new PatientDashboardJPanel(userProcessContainer,ua,o, enterprise, business);
+                                    userProcessContainer.add("PatientDashboardJPanel", pddjp);
+                                    
+                                    CardLayout layout = (CardLayout) userProcessContainer.getLayout();
+                                    layout.next(userProcessContainer);
+                                  
+                                          
+                                                                                                     
+                     
+                                   
+
+                                }
+                            } else if (ua.getEmployee() instanceof PremiumPatient) {
+                                PremiumPatient s = (PremiumPatient) ua.getEmployee();
+                                if (s.getMmid() != null && s.getMmid().equals(value)) {
+                                    PatientDashboardJPanel pddjp = new PatientDashboardJPanel(userProcessContainer,ua,o, enterprise, business);
+                                    userProcessContainer.add("PatientDashboardJPanel", pddjp);
+                                    for (Component cp : userProcessContainer.getComponents() ){
+                                          cp.setEnabled(false);}
+                                    CardLayout layout = (CardLayout) userProcessContainer.getLayout();
+                                    layout.next(userProcessContainer);
+                                    
+                                      //to disbale the Dashboard of the patient
+                     for (Component cp : userProcessContainer.getComponents() ){
+                                          cp.setEnabled(false);}                                                               
+                                    
+                                   
+                                }
+                            }
+                                    //
+                            else
+                                JOptionPane.showMessageDialog(null,"Entered MMID does not exist");//
+
+                        }
+                    }
+                }
+
+            }
+            
+
+        }
+    }//GEN-LAST:event_SEARCHBUTTONActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

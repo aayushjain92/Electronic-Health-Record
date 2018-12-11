@@ -11,8 +11,8 @@ import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
 import javax.swing.JPanel;
 import userinterface.AdministrativeRole.AdminWorkAreaJPanel;
-import userinterface.DoctorWorkArea.HospitalFinanceDashBoardJPanel;
-import userinterface.LabWorkArea.DiagnosticFinanceDashBoardJPanel;
+import userinterface.finance.CommonFinanceDashBoardJPanel;
+
 /**
  *
  * @author Aayush
@@ -20,6 +20,6 @@ import userinterface.LabWorkArea.DiagnosticFinanceDashBoardJPanel;
     public class DiagnosticFinanceRole extends Role{
       @Override
         public JPanel createWorkArea(JPanel userProcessContainer, UserAccount account, Organization organization, Enterprise enterprise, EcoSystem business) {
-            return new DiagnosticFinanceDashBoardJPanel(userProcessContainer, account, organization, enterprise, business);
+            return new CommonFinanceDashBoardJPanel(userProcessContainer, account, organization, enterprise, business);
         }
 }

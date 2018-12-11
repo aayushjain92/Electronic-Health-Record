@@ -11,7 +11,7 @@ import java.util.Date;
  *
  * @author raunak
  */
-public abstract class WorkRequest {
+public class WorkRequest {
 
     private String message;
     private UserAccount sender;
@@ -19,9 +19,13 @@ public abstract class WorkRequest {
     private String status;
     private Date requestDate;
     private Date resolveDate;
+    private String workOrderID;
+    private static int count = 1;
     
     public WorkRequest(){
         requestDate = new Date();
+//        workOrderID = "REQ0000"+count;
+//        ++count;
     }
 
     public String getMessage() {
@@ -71,4 +75,15 @@ public abstract class WorkRequest {
     public void setResolveDate(Date resolveDate) {
         this.resolveDate = resolveDate;
     }
+
+    public String getWorkOrderID() {
+        return workOrderID;
+    }
+
+    public void setWorkOrderID(String workOrderID) {
+        this.workOrderID = workOrderID;
+    }
+
+    
+    
 }

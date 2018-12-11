@@ -5,10 +5,19 @@
  */
 package Business.Employee;
 
+import Business.Enterprise.Enterprise;
+import Business.Organization.Organization;
+import Business.WorkQueue.WorkQueue;
+
 /**
  *
  * @author Aayush
  */
 public class FinanceEmployee extends Employee {
     
-}
+    
+    }
+    
+    
+    
+  

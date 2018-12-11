@@ -10,9 +10,7 @@ import Business.Enterprise.Enterprise;
 import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
 import javax.swing.JPanel;
-import userinterface.DoctorWorkArea.HospitalFinanceDashBoardJPanel;
-import userinterface.PharmaWorkArea.PharmacyFinanceDashBoardJPanel;
-
+import userinterface.finance.CommonFinanceDashBoardJPanel;
 /**
  *
  * @author Aayush
@@ -20,7 +18,7 @@ import userinterface.PharmaWorkArea.PharmacyFinanceDashBoardJPanel;
 public class PharmacyFinanceRole extends Role{
       @Override
     public JPanel createWorkArea(JPanel userProcessContainer, UserAccount account, Organization organization, Enterprise enterprise, EcoSystem business) {
-    return new PharmacyFinanceDashBoardJPanel(userProcessContainer, account, organization, enterprise, business);
+    return new CommonFinanceDashBoardJPanel(userProcessContainer, account, organization, enterprise, business);
      
     }
 }

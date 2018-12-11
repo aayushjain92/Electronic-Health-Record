@@ -5,7 +5,8 @@
 */
 package Business.Employee;
 
-import business.employee.patient.*;
+import Business.Employee.Patient.*;
+import Business.Prescription.Prescription;
 import java.util.ArrayList;
 
 
@@ -44,6 +45,7 @@ public class StandardPatient extends Employee{
     private ArrayList<Medications> medications;
     private ArrayList<Surgeries> surgeries;
     private ArrayList<VitalSigns> vitalSigns;
+    private ArrayList<Prescription> prescriptions;
 
     public StandardPatient() {
         height = (float) 0.0;
@@ -188,6 +190,15 @@ public class StandardPatient extends Employee{
     public void setOccupation(String occupation) {
         this.occupation = occupation;
     }
+    
+    public ArrayList<Prescription> getPrescriptions() {
+        return prescriptions;
+    }
+
+    public void setPrescriptions(ArrayList<Prescription> prescriptions) {
+        this.prescriptions = prescriptions;
+    }
+    
     
     
 }

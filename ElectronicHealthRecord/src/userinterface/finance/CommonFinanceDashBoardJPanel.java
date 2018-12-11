@@ -3,50 +3,76 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package userinterface.LabWorkArea;
+package userinterface.finance;
 
-import userinterface.PharmaWorkArea.*;
-import javax.swing.DefaultCellEditor;
-import javax.swing.JComboBox;
 import Business.EcoSystem;
+import Business.Employee.PremiumPatient;
 import Business.Enterprise.Enterprise;
 import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
+import Business.WorkQueue.WorkRequest;
+import userinterface.PharmaWorkArea.*;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
-
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author janakidevikandukuri
  */
-public class DiagnosticFinanceDashBoardJPanel extends javax.swing.JPanel {
+public class CommonFinanceDashBoardJPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form FinanceDashBoard
      */
-    
     
     private JPanel userProcessContainer;
     private UserAccount account;
     private Organization organization;
     private Enterprise enterprise;
     private EcoSystem business;
+    private PremiumPatient pp;
     
     
-    public DiagnosticFinanceDashBoardJPanel(JPanel userProcessContainer, UserAccount account, Organization organization, Enterprise enterprise, EcoSystem business) {
+
+    public CommonFinanceDashBoardJPanel(JPanel userProcessContainer, UserAccount account, Organization organization, Enterprise enterprise, EcoSystem business) {
         initComponents();
         this.userProcessContainer = userProcessContainer;
         this.account = account;
         this.organization = organization;
         this.enterprise = enterprise;
         this.business = business;
-
+        
        String[] a ={"PAID","UNPAID","PENDING"};
        JComboBox c = new JComboBox(a);
-       //to insert combo box in 4th cell
-       Financedashboardtable.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(c));
+       financedashboardtable.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(c));
+       populateTable();
+       
     }
 
+    public void populateTable()
+    {
+        DefaultTableModel model = (DefaultTableModel) financedashboardtable.getModel();
+
+        model.setRowCount(0);
+        Object row[] = new Object[3];
+        for (Organization organization : enterprise.getOrganizationDirectory().getOrganizationList()) {
+           for(WorkRequest req: organization.getWorkQueue().getWorkRequestList())
+           {
+                if(req.getSender() != null && req.getSender().getEmployee() instanceof PremiumPatient)  
+                {    
+                this.pp = (PremiumPatient) req.getSender().getEmployee();
+                row[0] = pp.getMmid();
+                row[1] = pp;
+                row[2] = req.getWorkOrderID();
+                ((DefaultTableModel) financedashboardtable.getModel()).addRow(row);
+                }
+        
+    }
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,7 +84,7 @@ public class DiagnosticFinanceDashBoardJPanel extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        Financedashboardtable = new javax.swing.JTable();
+        financedashboardtable = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(70, 71, 62));
@@ -67,7 +93,7 @@ public class DiagnosticFinanceDashBoardJPanel extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(204, 204, 204));
         jLabel1.setText("FINANCE DASHBOARD");
 
-        Financedashboardtable.setModel(new javax.swing.table.DefaultTableModel(
+        financedashboardtable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -75,10 +101,10 @@ public class DiagnosticFinanceDashBoardJPanel extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
-                "MMID", "Patient Name", "TESTID", "Status"
+                "MMID", "Patient Name", "WorkOrder ID", "Status"
             }
         ));
-        jScrollPane2.setViewportView(Financedashboardtable);
+        jScrollPane2.setViewportView(financedashboardtable);
 
         jButton1.setText("SAVE");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -120,14 +146,16 @@ public class DiagnosticFinanceDashBoardJPanel extends javax.swing.JPanel {
                     .addContainerGap(118, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+        
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable Financedashboardtable;
+    private javax.swing.JTable financedashboardtable;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;

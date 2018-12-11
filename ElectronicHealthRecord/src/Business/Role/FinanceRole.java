@@ -7,21 +7,28 @@ package Business.Role;
 
 import Business.EcoSystem;
 import Business.Enterprise.Enterprise;
+import Business.Organization.DoctorOrganization;
 import Business.Organization.Organization;
 import Business.UserAccount.UserAccount;
+import userinterface.DoctorWorkArea.DoctorWorkAreaJPanel;
 import javax.swing.JPanel;
-import userinterface.AdministrativeRole.AdminWorkAreaJPanel;
+import userinterface.DoctorWorkArea.DoctorDashboardJPanel;
 import userinterface.finance.CommonFinanceDashBoardJPanel;
 
 /**
  *
  * @author Aayush
  */
-public class HospitalFinanceRole extends Role{
-      @Override
+public class FinanceRole extends Role{
+    
+  
+@Override
     public JPanel createWorkArea(JPanel userProcessContainer, UserAccount account, Organization organization, Enterprise enterprise, EcoSystem business) {
-    return new CommonFinanceDashBoardJPanel(userProcessContainer, account, organization, enterprise, business);
-     
-    }
-
+        
+        
+        return new CommonFinanceDashBoardJPanel(userProcessContainer, account, (DoctorOrganization)organization, enterprise, business);
+        
+    
 }
+}
+
