@@ -1,4 +1,4 @@
-### Electronic Health Record
+# Electronic Health Record
 A common interaction platform between doctors, patients, diagnostic lab centers, and pharmacies. This application is patient-centered and aims to minimize medical errors. 
 
 ## Description
