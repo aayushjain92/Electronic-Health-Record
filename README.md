@@ -1,5 +1,5 @@
 # Electronic Health Record
-A common interaction platform between doctors, patients, diagnostic lab centers, and pharmacies. This application is patient-centered and aims to minimize medical errors. 
+A common interaction platform between doctors, patients, diagnostic lab centers, and pharmacies. This application is patient-centered and aims to minimize medical errors and ample number of drawbacks related to traditional paper-based health record systems.
 
 ## Description
 It is sometimes difficult for patients to explain their problems, or even if they do, it could be wrongly interpreted. This leads to bad diagnosis and wrong medication prescriptions eventually leading to loss of time and money and sometimes proves fatal for the patients. This application helps the providers to effectively diagnose patients, reduce medical errors, and provide safer care. It improves the interaction and communication between patients and providers while simultaneously providing quality health care convenience.
